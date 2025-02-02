@@ -28,13 +28,16 @@ jobs:
       env: 
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build docker image
+      env: 
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker build -t luisburga98/github_actions:$NEW_VERSION .
     - name: Push docker image
+      env: 
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker push luisburga98/github_actions:$NEW_VERSION
         
