@@ -22,7 +22,7 @@ jobs:
       with: 
         major_pattern: "major:"
         minor_pattern: "feat:"
-        format: "${major}.${minor}.${patch}-prerelease${increment}"
+        format: "${major}.${minor}.${patch}"
       id: version
     - name: Docker login
       env: 
@@ -35,11 +35,14 @@ jobs:
         NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker build -t luisburga98/github_actions:$NEW_VERSION .
+        docker build -t luisburga98/github_actions:latest .
     - name: Push docker image
       env: 
         NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
         docker push luisburga98/github_actions:$NEW_VERSION
+        docker push luisburga98/github_actions:latest
+
         
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
